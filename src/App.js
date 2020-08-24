@@ -21,26 +21,23 @@ useEffect(()=>{
   api.get("/repositories").then(response=>{
     
     setRepositories(response.data)
-  },[])
-})
+  })
+},[])
 
   async function handleLikeRepository(id) {
     // Implement "Like Repository" functionality
-    const response = await api.post(`repositories/${id}/like`)
-
-    const likedRepository = response.data
-    console.log(likedRepository)
+    await api.post(`repositories/${id}/like`)
 
     const repositoriesUpdated = repositories.map(repository => {
       if (repository.id === id) {
-        return likedRepository
+        repository.likes++;
+        return repository
       } else {
         return repository
       }
     })
-
     setRepositories(repositoriesUpdated)
-   
+ 
   }
 
   return (
